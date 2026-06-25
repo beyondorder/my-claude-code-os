@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Skill",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '[(.tool_input.skill // \"unknown\"), (.tool_input.args // \"\")] | @tsv' | { IFS=$(printf '\\t') read -r skill args; printf '%s\\t%-20s\\t%s\\n' \"$(date '+%F %T')\" \"$skill\" \"$args\" >> \"$CLAUDE_PROJECT_DIR/.claude/skill-usage.log\"; } 2>/dev/null || true",
+            "statusMessage": "skill 사용 기록 중..."
+          }
+        ]
+      }
+    ]
+  }
+}
